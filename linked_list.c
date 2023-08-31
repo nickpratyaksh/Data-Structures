@@ -1,29 +1,46 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-struct linked_list
+
+struct node
 {
     int data;
-    struct linked_list next;
+    struct node *next;
 };
+
+void print(struct node *head);
+void insert(struct node **head, int data);
 
 
 void main(){
-    struct linked_list one;
-    struct linked_list two;
-    struct linked_list three;
-    struct linked_list head = one;
+    struct node one;
+    struct node two;
+    struct node three;
+    struct node *head = &one;
     one.data = 1;
-    one.next = two;
+    one.next = &two;
     two.data = 2;
-    two.next = three;
+    two.next = &three;
     three.data = 3;
     three.next = NULL;
 
-    struct linked_list ptr = head;
-    
-    while(ptr != NULL){
-        printf("%d", ptr.data);
-        ptr = ptr.next;
-    }
+    insert(&head, 8);
+    print(head);
 
+}
+
+void print(struct node *ptr){
+
+    while(ptr != NULL){
+        printf("%d\n", ptr->data);
+        ptr = ptr->next;
+    }
+}
+
+void insert(struct node **head, int data){
+
+    struct node *new = (struct node*)malloc(sizeof(struct node));
+    new->data = data;
+    new->next = *head;
+    *head = new;
 }
