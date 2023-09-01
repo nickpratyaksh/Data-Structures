@@ -9,7 +9,10 @@ struct node
 };
 
 void print(struct node *head);
-void insert(struct node **head, int data);
+void insertStart(struct node **head, int data);
+void insertEnd(struct node *ptr, int data);
+void insertMiddle(struct node *ptr, int data, int pos);
+void deleteStart(struct node **head);
 
 
 void main(){
@@ -24,7 +27,8 @@ void main(){
     three.data = 3;
     three.next = NULL;
 
-    insert(&head, 8);
+    insertMiddle(head,9, 2);
+    deleteStart(&head);
     print(head);
 
 }
@@ -37,10 +41,36 @@ void print(struct node *ptr){
     }
 }
 
-void insert(struct node **head, int data){
+void insertStart(struct node **head, int data){
 
     struct node *new = (struct node*)malloc(sizeof(struct node));
     new->data = data;
     new->next = *head;
     *head = new;
+}
+
+void insertEnd(struct node *ptr, int data){
+    while(ptr->next != NULL)
+        ptr = ptr->next;
+
+    struct node *new = (struct node*)malloc(sizeof(struct node));
+    new->data = data;
+    new->next = NULL;
+    ptr->next = new;
+}
+
+void insertMiddle(struct node *ptr, int data, int pos){
+    while(ptr->data != pos)
+        ptr = ptr->next;
+
+    struct node *new = (struct node*)malloc(sizeof(struct node));
+    new->data = data;
+    new->next = ptr->next;
+    ptr->next = new;
+}
+
+void deleteStart(struct node **head){
+    struct node *ptr = *head;
+    *head = ptr->next;
+    free(ptr);
 }
