@@ -13,6 +13,8 @@ void insertStart(struct node **head, int data);
 void insertEnd(struct node *ptr, int data);
 void insertMiddle(struct node *ptr, int data, int pos);
 void deleteStart(struct node **head);
+void deleteEnd(struct node *ptr);
+void deleteMiddle(struct node *ptr, int data);
 
 
 void main(){
@@ -27,8 +29,13 @@ void main(){
     three.data = 3;
     three.next = NULL;
 
-    insertMiddle(head,9, 2);
-    deleteStart(&head);
+    // insertMiddle(head,9, 2);
+    // deleteStart(&head);
+    // deleteEnd(head);
+    insertEnd(head,4);
+    insertEnd(head,5);
+    // insertEnd(head,6);
+    deleteMiddle(head,3);
     print(head);
 
 }
@@ -73,4 +80,20 @@ void deleteStart(struct node **head){
     struct node *ptr = *head;
     *head = ptr->next;
     free(ptr);
+
+}
+
+void deleteEnd(struct node *ptr){
+    while(ptr->next->next != NULL)
+        ptr = ptr->next;
+        ptr->next = NULL;
+        free(ptr->next);
+}
+
+void deleteMiddle(struct node *ptr, int data){
+    while(ptr->next->data != data)
+        ptr = ptr->next;
+        ptr->next = ptr->next->next;
+        free(ptr->next);
+    
 }
