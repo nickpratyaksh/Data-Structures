@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 struct node
 {
@@ -8,98 +9,82 @@ struct node
 };
 
 void print(struct node *head);
-void insertStart(struct node **head, int data);
-void insertEnd(struct node *ptr, int data);
-void insertMiddle(struct node *ptr, int data, int pos);
-void deleteStart(struct node **head);
-void deleteEnd(struct node *ptr);
-void deleteMiddle(struct node *ptr, int data);
+void printReverse(struct node *ptr);
+void insert(struct node **head, int data, int pos, struct node **tail);
+void delete(struct node **head, int data, struct node **tail);
 
-
-void main(){
-    struct node one, two, three;
-    struct node *head = &one;
+int main()
+{
+    struct node one;
     one.data = 1;
     one.prev = NULL;
-    one.next = &two;
-    two.data = 2;
-    two.prev = &one;
-    two.next = &three;
-    three.data = 3;
-    three.prev = &two;
-    three.next = NULL;
-
-    // insertMiddle(head,9, 2);
-    // deleteStart(&head);
-    // deleteEnd(head);
-    insertEnd(head,4);
-    insertEnd(head,5);
-    // insertEnd(head,6);
-    deleteMiddle(head,3);
+    one.next = NULL;
+    struct node *head = &one;
+    struct node *tail = &one;
+    insert(&head, 2, 1, &tail);
+    delete (&head, 2, &tail);
     print(head);
+    printf("------------------------\n");
+    printReverse(tail);
 
+    return 0;
 }
 
-void print(struct node *ptr){
+void print(struct node *ptr)
+{
 
-    while(ptr != NULL){
+    while (ptr != NULL)
+    {
         printf("%d\n", ptr->data);
         ptr = ptr->next;
     }
 }
 
-void insertStart(struct node **head, int data){
+void printReverse(struct node *ptr)
+{
+    while (ptr != NULL)
+    {
+        printf("%d\n", ptr->data);
+        ptr = ptr->prev;
+    }
+}
+
+void insert(struct node **head, int data, int pos, struct node **tail)
+{
     struct node *ptr = *head;
-    struct node *new = (struct node*)malloc(sizeof(struct node));
-    new->data = data;
-    new->next = *head;
-    new->prev = NULL;
-    ptr->prev = new;
-    *head = new;
-}
-
-void insertEnd(struct node *ptr, int data){
-    while(ptr->next != NULL)
+    while (ptr->data != pos)
         ptr = ptr->next;
 
-    struct node *new = (struct node*)malloc(sizeof(struct node));
-    new->data = data;
-    new->next = NULL;
-    new->prev = ptr;
-    ptr->next = new;
-}
-
-void insertMiddle(struct node *ptr, int data, int pos){
-    while(ptr->data != pos)
-        ptr = ptr->next;
-
-    struct node *new = (struct node*)malloc(sizeof(struct node));
+    struct node *new = (struct node *)malloc(sizeof(struct node));
     new->data = data;
     new->next = ptr->next;
     new->prev = ptr;
     ptr->next = new;
+    if (new->next == NULL)
+        *tail = new;
+    else
+        new->next->prev = new;
 }
 
-void deleteStart(struct node **head){
+void delete(struct node **head, int data, struct node **tail)
+{
     struct node *ptr = *head;
-    ptr->next->prev = NULL;
-    *head = ptr->next;
-    free(ptr);
-
-}
-
-void deleteEnd(struct node *ptr){
-    while(ptr->next->next != NULL)
-        ptr = ptr->next;
-        free(ptr->next);
-        ptr->next = NULL;
-}
-
-void deleteMiddle(struct node *ptr, int data){
-    while(ptr->next->data != data)
-        ptr = ptr->next;
+    if (ptr->data == data)
+    {
+        ptr->next->prev = NULL;
+        *head = ptr->next;
+        free(ptr);
+    }
+    else
+    {
+        while (ptr->next->data != data)
+            ptr = ptr->next;
         struct node *tmp = ptr->next;
         ptr->next = ptr->next->next;
-        ptr->next->prev = ptr;
+        if (ptr->next == NULL)
+            *tail = ptr;
+        else
+            ptr->next->prev = ptr;
         free(tmp);
+    }
 }
