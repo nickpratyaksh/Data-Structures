@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 struct node
 {
     int data;
+    struct node *prev;
     struct node *next;
 };
 
@@ -20,19 +20,22 @@ void main(){
     struct node one, two, three;
     struct node *head = &one;
     one.data = 1;
+    one.prev = NULL;
     one.next = &two;
     two.data = 2;
+    two.prev = &one;
     two.next = &three;
     three.data = 3;
+    three.prev = &two;
     three.next = NULL;
 
     // insertMiddle(head,9, 2);
     // deleteStart(&head);
     // deleteEnd(head);
-    // insertEnd(head,4);
-    // insertEnd(head,5);
+    insertEnd(head,4);
+    insertEnd(head,5);
     // insertEnd(head,6);
-    deleteMiddle(head,2);
+    deleteMiddle(head,3);
     print(head);
 
 }
@@ -46,10 +49,12 @@ void print(struct node *ptr){
 }
 
 void insertStart(struct node **head, int data){
-
+    struct node *ptr = *head;
     struct node *new = (struct node*)malloc(sizeof(struct node));
     new->data = data;
     new->next = *head;
+    new->prev = NULL;
+    ptr->prev = new;
     *head = new;
 }
 
@@ -60,6 +65,7 @@ void insertEnd(struct node *ptr, int data){
     struct node *new = (struct node*)malloc(sizeof(struct node));
     new->data = data;
     new->next = NULL;
+    new->prev = ptr;
     ptr->next = new;
 }
 
@@ -70,11 +76,13 @@ void insertMiddle(struct node *ptr, int data, int pos){
     struct node *new = (struct node*)malloc(sizeof(struct node));
     new->data = data;
     new->next = ptr->next;
+    new->prev = ptr;
     ptr->next = new;
 }
 
 void deleteStart(struct node **head){
     struct node *ptr = *head;
+    ptr->next->prev = NULL;
     *head = ptr->next;
     free(ptr);
 
@@ -92,5 +100,6 @@ void deleteMiddle(struct node *ptr, int data){
         ptr = ptr->next;
         struct node *tmp = ptr->next;
         ptr->next = ptr->next->next;
+        ptr->next->prev = ptr;
         free(tmp);
 }
