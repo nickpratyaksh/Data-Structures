@@ -8,21 +8,21 @@ struct node
     struct node *next;
 };
 
-void print(struct node *head);
+void print(struct node *ptr);
 void printReverse(struct node *ptr);
 void insert(struct node **head, int data, int pos, struct node **tail);
 void delete(struct node **head, int data, struct node **tail);
 
 int main()
 {
-    struct node one;
-    one.data = 1;
-    one.prev = NULL;
-    one.next = NULL;
-    struct node *head = &one;
-    struct node *tail = &one;
+    struct node node;
+    node.data = 1;
+    node.prev = NULL;
+    node.next = NULL;
+    struct node *head = &node;
+    struct node *tail = &node;
     insert(&head, 2, 1, &tail);
-    delete (&head, 2, &tail);
+    // delete (&head, 2, &tail);
     print(head);
     printf("------------------------\n");
     printReverse(tail);

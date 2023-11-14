@@ -62,3 +62,19 @@ void delete(struct node **head, int data)
         free(tmp);
     }
 }
+
+// void insertEnd(struct node *ptr, int data){
+//     while(ptr->next != NULL)
+//         ptr = ptr->next;
+
+//     struct node *new = (struct node*)malloc(sizeof(struct node));
+//     new->data = data;
+//     new->next = NULL;
+//     ptr->next = new;
+// }
+
+// void deleteStart(struct node **head){
+//     struct node *ptr = *head;
+//     *head = ptr->next;
+//     free(ptr);
+// }

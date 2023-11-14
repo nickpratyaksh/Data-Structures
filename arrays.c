@@ -7,16 +7,15 @@ void BSearch(int arr[], int size, int val);
 
 void main(){
     int array[15] = {1,2,3,4,5,6,7,8,9,10};
-    // delete(array, 10, 5);
+    delete(array, 10, 5);
     // LSearch(array, 10, 5);
-    BSearch(array, 10, 5);
-
-    // print(array, 10);
+    print(array, 9);
+    BSearch(array, 9, 4);
 }
 
 void print(int arr[], int size){
-    for(int i = 0; i <= size; i++){
-        printf("%d\n",i);
+    for(int i = 0; i < size; i++){
+        printf("%d ",arr[i]);
     }
 }
 
@@ -49,7 +48,7 @@ void BSearch(int arr[], int size, int val){
     {
         int Mid = (L+U)/2;
         if(arr[Mid] == val){
-        printf("Item found at %d",Mid);
+        printf("\nItem found at %d",Mid+1);
         return;
         }
         if(val > Mid)
